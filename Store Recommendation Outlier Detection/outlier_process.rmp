@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.9.002">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.9.002" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="9.9.002" expanded="true" height="68" name="Retrieve outlier_store_recommendation" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="outlier_store_recommendation"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.9.002" expanded="true" height="82" name="Remove Store Name" width="90" x="179" y="34">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="store_name"/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="true"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="replace" compatibility="9.9.002" expanded="true" height="82" name="Replace Punctuation" width="90" x="179" y="136">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value="average_response_time"/>
+        <parameter key="attributes" value="|average_response_time|number_of_workday"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="nominal"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="file_path"/>
+        <parameter key="block_type" value="single_value"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="replace_what" value="[-!&quot;#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]_`{|}~]"/>
+        <parameter key="replace_by" value=" "/>
+      </operator>
+      <operator activated="true" class="replace" compatibility="9.9.002" expanded="true" height="82" name="Replace Word" width="90" x="179" y="238">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="average_response_time|number_of_workday"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="nominal"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="file_path"/>
+        <parameter key="block_type" value="single_value"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="replace_what" value="[a-zA-Z]"/>
+        <parameter key="replace_by" value=""/>
+      </operator>
+      <operator activated="true" class="guess_types" compatibility="9.9.002" expanded="true" height="82" name="Guess Types" width="90" x="313" y="34">
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="decimal_point_character" value="."/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="9.9.002" expanded="true" height="82" name="Set Role" width="90" x="313" y="136">
+        <parameter key="attribute_name" value="id"/>
+        <parameter key="target_role" value="id"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="normalize" compatibility="9.9.002" expanded="true" height="103" name="Normalize" width="90" x="313" y="238">
+        <parameter key="return_preprocessing_model" value="false"/>
+        <parameter key="create_view" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="numeric"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="real"/>
+        <parameter key="block_type" value="value_series"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_series_end"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="method" value="Z-transformation"/>
+        <parameter key="min" value="0.0"/>
+        <parameter key="max" value="1.0"/>
+        <parameter key="allow_negative_values" value="false"/>
+      </operator>
+      <operator activated="true" class="detect_outlier_densities" compatibility="9.9.002" expanded="true" height="82" name="Detect Outlier (Densities)" width="90" x="447" y="34">
+        <parameter key="distance" value="0.74"/>
+        <parameter key="proportion" value="0.75"/>
+        <parameter key="distance_function" value="inverted cosine distance"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.9.002" expanded="true" height="82" name="Show Only the Outlier" width="90" x="447" y="136">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="outlier"/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <connect from_op="Retrieve outlier_store_recommendation" from_port="output" to_op="Remove Store Name" to_port="example set input"/>
+      <connect from_op="Remove Store Name" from_port="example set output" to_op="Replace Punctuation" to_port="example set input"/>
+      <connect from_op="Replace Punctuation" from_port="example set output" to_op="Replace Word" to_port="example set input"/>
+      <connect from_op="Replace Word" from_port="example set output" to_op="Guess Types" to_port="example set input"/>
+      <connect from_op="Guess Types" from_port="example set output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_op="Normalize" to_port="example set input"/>
+      <connect from_op="Normalize" from_port="example set output" to_op="Detect Outlier (Densities)" to_port="example set input"/>
+      <connect from_op="Detect Outlier (Densities)" from_port="example set output" to_op="Show Only the Outlier" to_port="example set input"/>
+      <connect from_op="Show Only the Outlier" from_port="example set output" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>
