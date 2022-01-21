@@ -1,0 +1,46 @@
+Clustering <- pertemuan 7 
+Similarity measurement <- 
+-- Euclidian -> pitagoras antar 2 object
+-- cosine -> mencari value cosinus antara 2 object
+-- jaccard -> 𝐴 ∩ 𝐵/𝐴 ∪ 𝐵
+
+K-Means<- algoritma buat clustering
+
+
+Praktek Clustering
+- Preprocessing
+-- Remove attribut yang ga kepake buat analisa
+-- bersihin data (cth: "1$" -> "1" (bisa pake operator replace, replace "$" -> "")
+-- mapping data kalo ada attribut yang kea kategori(cth : "Low","Medium","High"-> 1,2,3)
+-- Parse Number, biasa hasil mapping masih polynomial, kita mau dalam bentuk angka 
+-- Normalization, biasa data kita itu range angkanya bisa beda jauh, supaya range angka nya sama, kita bisa lakuin normalization 
+
+- Pake Correlation matrix, liat hasilnya dengan drag bagian m at
+
+
+- Buat attribut yang korelasinya diatas 0.8, buang aja (bisa pake select attributes)
+- Apply the clustering algorithm K-Means.
+-- k -> jumlah cluster pada hasil akhir yang kita mau (cara tentuinnya bisa dengan liat bawah, kategori clusternya ada berapa)
+
+
+-- [tidak wajib harusnya]measure types-> numerical measures
+
+- ganti cluster jadi kategori (mapping)
+-- gimana cara tau yang mana yang mana ? (cth: cluster_0, cluster_1, ubah jadi Insufficient overspend sama wealthy)
+bisa dengan liat data hasilnya, ke bagian visualizations
+
+Insufficient overspend
+-	Female
+-	Younger age<- cluster 1
+-	Lower annual income
+-	Higher spending score <- cluster 1
+Wealthy
+-	Male
+-	Older age<- cluster 0
+-	Higher annual income
+-	Lower spending score <- cluster 0 
+
+
+cluster_0-> Wealthy
+cluster_1-> Insufficient overspend
+
